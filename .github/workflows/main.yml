@@ -25,9 +25,6 @@ jobs:
         with:
           node-version: '20'
 
-      - run: npm install
-        working-directory: ./wwwroot
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
