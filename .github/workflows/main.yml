@@ -14,21 +14,26 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
-  
+
+      - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: SonarCloud Begin
+        run: dotnet-sonarscanner begin /k:"BrentCaesPXL_sast" /o:"brentcaespxl" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
       - name: Restore dependencies
         run: dotnet restore
-  
+
       - name: Build project
         run: dotnet build --no-restore --configuration Release
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20'
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: SonarCloud End
+        run: dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
   codeql:
     runs-on: ubuntu-latest
