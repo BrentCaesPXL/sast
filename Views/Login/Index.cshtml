@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Login Page";
+}
+    @if (ViewBag.Error != null)
+    {
+        <div class="error-message">@ViewBag.Error</div>
+    }
+<div class="form-container">
+    <form method="post" class="form-box">
+        <h1 class="form-title">Sign in to your account</h1>
+
+        <div class="form-group">
+            <label for="email">Name</label>
+            <input id="email" name="Username" type="input" required autofocus class="form-input" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required class="form-input" />
+            <p><a href="/Account/Error501" class="form-link-small">Forgot password?</a></p>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-primary">Log in</button>
+        </div>
+
+        <p><a href="/Register" class="form-link">Create an account</a></p>
+    </form>
+</div>
+
+
+<link rel="stylesheet" href="~/css/site.css" />

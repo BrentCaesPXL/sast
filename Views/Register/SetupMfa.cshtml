@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Setup MFA Page";
+}
+
+<div class="mfa-container">
+    <div class="mfa-box">
+        <h2>Set up MFA</h2>
+        <p>Scan this QR-code with Google Authenticator or another TOTP-app:</p>
+
+        <img class="qr-code" src="data:image/png;base64,@ViewBag.QRCodeImage" alt="MFA QR Code" />
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-message">@ViewBag.Error</div>
+        }
+
+        <form method="post" class="mfa-form">
+            <input name="code" type="text" placeholder="6-cijferige code" maxlength="6" required autocomplete="one-time-code" />
+            <button type="submit" class="btn-primary">Verify</button>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/site.css" />

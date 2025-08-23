@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "MFA Page";
+}
+<div class="demo-container">
+    <div class="content-box">
+        <h2>Insert MFA-code</h2>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-message">@ViewBag.Error</div>
+        }
+        <form method="post">
+            <input name="code" placeholder="6-digit code" maxlength="6" required autocomplete="one-time-code" />
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/site.css" />

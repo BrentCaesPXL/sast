@@ -1,0 +1,97 @@
+﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a {
+  color: white !important;
+}
+
+.navbar-container {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+span.navbar-title {
+  font-size: 0.95rem;
+}
+
+span.navbar-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+span.navbar-title-one {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+
+.navbar-logo {
+  height: 40px;
+  margin-right: 12px;
+}
+
+.navbar-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.navbar-nav {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-left: 1.5rem;
+}
+
+.nav-text {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-text:hover {
+  color: #e2e8f0;
+}
+
+.nav-form {
+  margin: 0;
+  padding: 0;
+}
+
+.btn-login {
+  padding: 0.5rem 1.2rem;
+  background-image: linear-gradient(to right, #06b6d4, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background-image: linear-gradient(to right, #2563eb, #1e40af);
+  transform: scale(1.02);
+}
+
+.btn-login:active {
+  transform: scale(0.98);
+}

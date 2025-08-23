@@ -1,0 +1,17 @@
+@{
+    ViewData["IsMFA"] = true;
+    ViewData["Title"] = "Succesvol ingelogd met MFA";
+}
+
+<div class="success-container">
+    <div class="success-box">
+        <h2>✅ Login successfull with MFA ✅</h2>
+        <p>Welcome! You are logged in with Multi-Factor Authenticatie.</p>
+
+        <form method="post" asp-action="Logout" asp-controller="Account">
+            <button type="submit" class="btn-primary">Log out</button>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/site.css" />

@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Fout";
+}
+
+<div class="success-container">
+    <div class="success-box">
+        <h2>🚫 Niet ingelogd met MFA 🚫</h2>
+        <p>Sorry! Je bent niet correct ingelogd met Multi-Factor Authenticatie.</p>
+
+        <form method="post" asp-action="Logout" asp-controller="Account">
+            <button type="submit" class="btn-primary">Try Again</button>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/site.css" />
