@@ -116,6 +116,9 @@ jobs:
           tar -xzf spotbugs.tgz
           curl -L -o findsecbugs-plugin.jar https://repo1.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.12.0/findsecbugs-plugin-1.12.0.jar
           mv findsecbugs-plugin.jar spotbugs-4.8.5/lib/
+
+      - name: Make SpotBugs executable
+        run: chmod +x ./spotbugs-4.8.5/bin/spotbugs
           
       - name: Run FindSecBugs
         run: |
