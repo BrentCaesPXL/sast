@@ -1,0 +1,125 @@
+name: Static Application Security Testing Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+  
+      - name: Restore dependencies
+        run: dotnet restore
+  
+      - name: Build project
+        run: dotnet build --no-restore --configuration Release
+
+  codeql:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+          queries: security-extended
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: ./results
+  
+      - name: Upload CodeQL results
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-results
+          path: ./results
+
+  semgrep:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep Scan (text report)
+        run: semgrep --config "p/ci" --config "p/security-audit" --text > semgrep.txt
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+      - name: Upload Semgrep Report (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep.txt
+
+  findsecbugs:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Download SpotBugs + FindSecBugs
+        run: |
+          curl -L -o spotbugs.tgz https://github.com/spotbugs/spotbugs/releases/download/4.8.5/spotbugs-4.8.5.tgz
+          tar -xzf spotbugs.tgz
+          curl -L -o findsecbugs-plugin.jar https://repo1.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.12.0/findsecbugs-plugin-1.12.0.jar
+          mv findsecbugs-plugin.jar spotbugs-4.8.5/lib/
+          
+      - name: Run FindSecBugs
+        run: |
+          ./spotbugs-4.8.5/bin/spotbugs \
+            -textui \
+            -pluginList spotbugs-4.8.5/lib/findsecbugs-plugin.jar \
+            -xml:withMessages \
+            -output findsecbugs.xml \
+            ./build/libs || true
+            
+      - name: Upload FindSecBugs Report (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: findsecbugs-results
+          path: findsecbugs.xml
