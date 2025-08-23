@@ -27,11 +27,6 @@ jobs:
       - name: Build project
         run: dotnet build --no-restore --configuration Release
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
       - name: SonarCloud End
         run: dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
