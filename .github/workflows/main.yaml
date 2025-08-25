@@ -83,7 +83,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep Scan (text report)
-        run: semgrep --config "p/ci" --config "p/security-audit" --text > semgrep.txt
+        run: semgrep --config "p/ci" --config "p/security-audit" --config "p/csharp" --text > semgrep.txt
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
