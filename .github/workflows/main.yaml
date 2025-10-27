@@ -64,7 +64,7 @@ jobs:
           output: ./results
   
       - name: Upload CodeQL results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: codeql-results
           path: ./results
@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload Semgrep Report (artifact)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: semgrep-results
           path: semgrep.txt
